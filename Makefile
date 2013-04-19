@@ -1,15 +1,5 @@
-
 PROGNAME = suid-wrap
-
-ifeq (${SYSTYPE},"debian")
-prefix = ${DESTDIR}/usr
-bindir = ${prefix}/sbin
-else
-ifeq (${SYSTYPE},"default")
-prefix = /usr/local
-bindir = ${prefix}/sbin
-endif
-endif
+DESTDIR := /usr/local/bin
 
 BINGRP = root
 BINOWN = root
@@ -50,9 +40,10 @@ clean:
 distclean: clean
 
 install: all
-	${INSTALL} -d ${bindir}
-	${INSTALL_PROGRAM} -g ${BINGRP} -o ${BINOWN} -m ${BINMODE} ${PROGNAME} ${bindir}
+	${INSTALL} -d ${DESTDIR}
+	${INSTALL_PROGRAM} -g ${BINGRP} -o ${BINOWN} -m ${BINMODE} ${PROGNAME} ${DESTDIR}
+	chmod u+s ${DESTDIR}/${PROGNAME}
 
 uninstall:
-	rm -f ${bindir}/${PROGNAME}
+	rm -f ${DESTDIR}/${PROGNAME}
 
