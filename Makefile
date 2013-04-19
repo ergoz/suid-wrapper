@@ -40,6 +40,10 @@ all: ${PROGNAME}
 ${PROGNAME}: ${OBJECTS}
 	${CC} ${LDFLAGS} $^ -o $@ ${LDLIBS}
 
+perms:
+	chown root.root ${PROGNAME}
+	chmod u+s ${PROGNAME}
+
 clean:
 	rm -f *~ ${OBJECTS} ${PROGNAME}
 
