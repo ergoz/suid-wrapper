@@ -11,7 +11,7 @@ void stracat(char **target, char *source)
 	tmp = realloc(*target, (strlen(*target)+strlen(source)+1));
 	if (tmp == NULL) {
 		perror("Failure allocating memory for command");
-		exit(EPERM);
+		exit(ENOMEM);
 	}
 	strcat(tmp, source);
 	*target = tmp;
@@ -28,7 +28,10 @@ int main(int argc, char *argv[])
 	}
 
 	str = malloc(strlen(argv[1])+1);
-	/* TODO check return */
+	if (str == NULL) {
+		perror("Failure allocating memory for command");
+		return -ENOMEM;
+	}
 	strcpy(str, argv[1]);
 
 	for (i = 2; i < argc; i++) {
